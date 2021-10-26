@@ -1,0 +1,73 @@
+;
+; STANDARD MD INPUT OPTIONS FOR MARTINI 2.x
+; Updated 02 feb 2013 by DdJ
+;
+; for use with GROMACS 4.5/4.6
+;
+
+title                    = Martini
+
+
+; TIMESTEP IN MARTINI 
+; Most simulations are numerically stable 
+; with dt=40 fs, some (especially rings and polarizable water) require 20-30 fs.
+; Note that time steps of 40 fs and larger may create local heating or 
+; cooling in your system. Although the use of a heat bath will globally 
+; remove this effect, it is advised to check consistency of 
+; your results for somewhat smaller time steps in the range 20-30 fs.
+; Time steps exceeding 40 fs should not be used; time steps smaller
+; than 20 fs are also not required unless specifically stated in the itp file.
+
+
+integrator               = steep ; Run steepest descent energy minimization algorithm
+dt                       = 0.05  
+nsteps                   = 500000  ; Number of steep steps to run
+nstcomm                  = 100
+comm-grps		 = 
+emstep = 0.03
+emtol = 1
+
+; OUTPUT CONTROL OPTIONS = 
+; Output frequency for coords (x), velocities (v) and forces (f) = 
+
+; OUTPUT CONTROL OPTIONS = 
+; Output frequency for coords (x), velocities (v) and forces (f) = 
+nstxout                  = 0
+nstvout                  = 0
+nstfout                  = 0
+nstlog                   = 5000  ; Output frequency for energies to log file 
+nstenergy                = 100   ; Output frequency for energies to energy file
+xtc_precision            = 100
+xtc-grps                 = 
+energygrps               = system
+
+
+
+
+cutoff-scheme            = Verlet
+nstlist                  = 20
+verlet-buffer-tolerance = 0.005
+nsttcouple = -1
+ns-type                  = grid
+pbc                      = xyz 
+
+
+coulombtype              = Reaction-Field
+rcoulomb_switch          = 0.0
+rcoulomb                 = 1.2
+epsilon_r                = 15	; 2.5 (with polarizable water)
+vdw_type                 = Shift  ;cutoff (for use with Verlet-pairlist)   
+rvdw_switch              = 0.9
+rvdw                     = 1.2 ;(for use with Verlet-pairlist)
+
+
+
+; MARTINI and CONSTRAINTS 
+; for ring systems and stiff bonds constraints are defined
+; which are best handled using Lincs. 
+
+constraints              = none 
+constraint_algorithm     = Lincs
+continuation             = no
+lincs_order              = 4
+lincs_warnangle          = 30

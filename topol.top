@@ -1,0 +1,12 @@
+;#include "Beads-No_LJ.itp"
+#include "martini_v2.1.itp"
+#include "Peptoid.itp"
+
+
+[ system ]
+; name
+INSANE! Membrane UpperLeaflet>POPC=1 LowerLeaflet>POPC=1
+
+[ molecules ]
+; name  number
+Peptoid 1

@@ -1,0 +1,4 @@
+LogD:
+Bolt et al. 2017
+(NLysNspeNspe)4 = 1.21
+(NaeNspeNspe)4 = -1.81
