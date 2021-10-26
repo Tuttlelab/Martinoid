@@ -2,14 +2,14 @@
 ;	File 'mdout.mdp' was generated
 ;	By user: unknown (1000)
 ;	On host: DESKTOP-FQOP8JE
-;	At date: Tue Oct 26 01:47:35 2021
+;	At date: Tue Oct 26 05:20:08 2021
 ;
 ;	Created by:
 ;	             :-) GROMACS - gmx grompp, 2020.1-Ubuntu-2020.1-1 (-:
 ;	
 ;	Executable:   /usr/bin/gmx
 ;	Data prefix:  /usr
-;	Working dir:  /mnt/c/Users/avtei/OneDrive - University of Strathclyde/Peptoids
+;	Working dir:  /mnt/c/Users/avtei/OneDrive/Documents/GitHub/Martinoid
 ;	Command line:
 ;	  gmx grompp -f min.mdp -p topol.top -o Peptoid_min -c Peptoid.gro -maxwarn 1
 
