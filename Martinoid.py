@@ -24,12 +24,14 @@ np.random.seed(int(time.time()))
 DEBUG = True
 #seq = ["FENR", "A000", "Y000", "AP00", "M000", "M0A0", "FN00", "F000", "WE00"]
 #seq = ["AP00", "Y000"]
-seq = ["KE00", "K000", "R000", "F000", "FENR"]
+seq = ["W000", "FENR", "FENR", "FENR", "FENR", "T000", "N000", "K000"]
 
 
 SS = {"straight":{"Angle_deg":161, "Angle_FC":25, 
-                  "Dihedral_deg":180, "Dihedral_FC":180 }}
-SS_type = "straight"
+                  "Dihedral_deg":180, "Dihedral_FC":180 },
+      "helix":{"Angle_deg":96, "Angle_FC":700, 
+                  "Dihedral_deg":-120, "Dihedral_FC":400 }}
+SS_type = "helix"
 SS = SS[SS_type]
 
 beads = pandas.DataFrame(columns=["i", "type", "residue", "resname"])
