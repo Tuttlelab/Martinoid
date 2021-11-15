@@ -74,7 +74,7 @@ SideChainCoords["WE00"] = copy.copy(SideChainCoords["W000"])
 SideChainCoords["KE00"] = copy.copy(SideChainCoords["AP00"])
 SideChainCoords["R000"] = copy.copy(SideChainCoords["K000"])
                                      
-print(SideChainCoords)
+#print(SideChainCoords)
 
 
 PseudoAtoms = {}

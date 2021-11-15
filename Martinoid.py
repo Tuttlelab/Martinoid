@@ -15,9 +15,11 @@ from ase.constraints import FixInternals
 from ase.optimize import BFGS, FIRE
 from ase.optimize.minimahopping import MinimaHopping
 from ase.optimize.minimahopping import MHPlot
-import MDAnalysis as mda
+#import MDAnalysis as mda
+import mdtraj
 import warnings
 warnings.filterwarnings("ignore")
+
 
 
 np.random.seed(int(time.time()))
@@ -338,6 +340,8 @@ print(dihedrals)
 
 
 print("\n\nWriting to Peptoid.gro")
+# MDAnalysis
+a="""
 U = mda.Universe.empty(beads.shape[0],
                          n_residues=len(seq),
                          atom_resindex=beads["residue"].values,
@@ -377,6 +381,50 @@ coords *= 10
 print(coords)    
 gro.positions = coords
 gro.write("Peptoid.gro")
+#"""
+
+#MDTraj
+template = mdtraj.core.topology.Topology()
+
+coords = np.array([[0.0, 0.0, 0.0]])
+coords_beads = ["BB"]
+
+index = 0
+sign = 1
+
+while index <= beads["i"][1:].shape[0]:
+    bead = beads.at[index, "i"]
+    print("index:", index, beads.at[index, "resname"])
+    new_pos = coords[np.where(np.array(coords_beads) == "BB")[0][-1]].copy()
+    new_pos[2] = np.random.random()/10
+    if bead == "BB":
+        current_chain = template.add_chain()
+        res = template.add_residue("W1000", current_chain)
+        template.add_atom("BB", mdtraj.core.element.carbon, res)
+        new_pos[0] += 0.4
+        new_pos[1] = 0
+        if index > 0:
+            coords = np.vstack((coords, new_pos))
+            coords_beads.append("BB")
+        if sign == 1:
+            sign = -1
+        else:
+            sign = 1
+    else:
+        SC_i = int(beads.at[index, "i"][-1])-1
+        template.add_atom(f"SC{SC_i}", mdtraj.core.element.carbon, res)
+        #print("SideChainCoords:", SideChainCoords[beads.at[index, "resname"]], SC_i)
+        new_side_chain = SideChainCoords[beads.at[index, "resname"]] + new_pos
+        new_side_chain[:,1]*=sign
+        coords = np.vstack((coords, new_side_chain[SC_i]))
+        coords_beads += ["SC"] 
+    index += 1
+
+print(template.to_dataframe())
+traj = mdtraj.Trajectory(coords, template)
+traj.save_pdb("Peptoid.pdb")
+
+
 #replace_in_file2("Peptoid.gro", "   0.00000   0.00000   0.00000", "  15.00000  15.00000  15.00000")
 local_i = 0
 if DEBUG:
@@ -462,7 +510,7 @@ itp.close()
 
 print("\n")
 print("rm *#*")
-print("gmx editconf -f Peptoid.gro -o Peptoid.gro -c -box 15 15 15")
+print("gmx editconf -f Peptoid.pdb -o Peptoid.gro -c -box 15 15 15")
 print("rm *tpr*")
 print("gmx grompp -f min.mdp -p topol.top -o Peptoid_min -c Peptoid.gro -maxwarn 1")
 print("gmx mdrun -v  -ntomp 4 -deffnm Peptoid_min")
