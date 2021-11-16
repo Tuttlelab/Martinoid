@@ -36,19 +36,6 @@ SS = {"straight":{"Angle_deg":161, "Angle_FC":25,
 SS_type = "helix"
 SS = SS[SS_type]
 
-beads = pandas.DataFrame(columns=["i", "type", "residue", "resname"])
-bonds = pandas.DataFrame(columns=["i", "j", "L", "k"], dtype=np.float64)
-constraints = pandas.DataFrame(columns=["i", "j", "L"], dtype=np.float64)
-angles = pandas.DataFrame(columns=["i", "j", "k", "angle", "FC", "comment"])
-dihedrals = pandas.DataFrame(columns=["i", "j", "k", "h", "dihedral", "FC", "comment"])
-
-
-side_chain_angles_template = pandas.DataFrame(columns=["j", "angle", "FC"])
-side_chain_angles_template.loc["BB-BB-SC1"] = [0,0,0]
-
-side_chain_dihedrals_template = pandas.DataFrame(columns=["i", "j", "k", "h", "dihedral", "FC"])
-#side_chain_dihedrals_template.loc["BB-BB-SC1-SC2"] = [-2, -1, 0, 1, 0, 0]
-
 
 
 

@@ -26,7 +26,7 @@ def replace_in_file2(fname, original, new):
     with open(fname, 'w') as outfile:
         outfile.write(content)
 
-charges = {"Na":0.0, "Qa":1.0, "Qd":-1.0, "N0":0.0,
+charges = {"Na":0.0, "Qa":1.0, "Qd":-1.0, "N0":0.0, "Nda": 0.0,
            "P1":0.0, "P2":0.0, "P3":0.0, "P4":0.0, "P5":0.0,
            "SP1":0.0, "SP2":0.0, "SP3":0.0, "SP4":0.0, "SP5":0.0,
            "SC4":0.0, "SC5":0.0, 
@@ -80,6 +80,21 @@ SideChainCoords["R000"] = copy.copy(SideChainCoords["K000"])
 PseudoAtoms = {}
 
 
+beads = pandas.DataFrame(columns=["i", "type", "residue", "resname"])
+bonds = pandas.DataFrame(columns=["i", "j", "L", "k"], dtype=np.float64)
+constraints = pandas.DataFrame(columns=["i", "j", "L"], dtype=np.float64)
+angles = pandas.DataFrame(columns=["i", "j", "k", "angle", "FC", "comment"])
+dihedrals = pandas.DataFrame(columns=["i", "j", "k", "h", "dihedral", "FC", "comment"])
+
+
+side_chain_angles_template = pandas.DataFrame(columns=["j", "angle", "FC"])
+side_chain_angles_template.loc["BB-BB-SC1"] = [0,0,0]
+
+side_chain_dihedrals_template = pandas.DataFrame(columns=["i", "j", "k", "h", "dihedral", "FC"])
+#side_chain_dihedrals_template.loc["BB-BB-SC1-SC2"] = [-2, -1, 0, 1, 0, 0]
+
+
+
 
 res_db = {"A000": [pandas.DataFrame([["BB", "Na"]], columns=["i", "type"]),
                    pandas.DataFrame(columns=["i", "j", "L", "k"]), 
@@ -105,9 +120,9 @@ res_db = {"A000": [pandas.DataFrame([["BB", "Na"]], columns=["i", "type"]),
                                      ["SC2", "SC4"],
                                      ["SC3", "SP1"]], columns=["i", "type"]),
                    pandas.DataFrame([[0, 1, 0.40, 2500],
-                                     [1, 2, 0.40, 2500],
-                                     [2, 3, 0.40, 2500],
-                                     [3, 1, 0.40, 2500]], columns=["i", "j", "L", "k"]), 
+                                     [1, 2, 0.40, "Constraint"],
+                                     [2, 3, 0.40, "Constraint"],
+                                     [3, 1, 0.40, "Constraint"]], columns=["i", "j", "L", "k"]), 
                    side_chain_angles_template.copy(), 
                    side_chain_dihedrals_template.copy()],
           "F000": [pandas.DataFrame([["BB", "Na"],
@@ -115,9 +130,9 @@ res_db = {"A000": [pandas.DataFrame([["BB", "Na"]], columns=["i", "type"]),
                                      ["SC2", "SC4"],
                                      ["SC3", "SC4"]], columns=["i", "type"]),
                    pandas.DataFrame([[0, 1, 0.40, 2500],
-                                     [1, 2, 0.40, 2500],
-                                     [2, 3, 0.40, 2500],
-                                     [3, 1, 0.40, 2500]], columns=["i", "j", "L", "k"]), 
+                                     [1, 2, 0.40, "Constraint"],
+                                     [2, 3, 0.40, "Constraint"],
+                                     [3, 1, 0.40, "Constraint"]], columns=["i", "j", "L", "k"]), 
                    side_chain_angles_template.copy(), 
                    side_chain_dihedrals_template.copy()],
           "FEC3": [pandas.DataFrame([["BB", "Na"],
@@ -125,9 +140,9 @@ res_db = {"A000": [pandas.DataFrame([["BB", "Na"]], columns=["i", "type"]),
                                      ["SC2", "SC4"],
                                      ["SC3", "SC5"]], columns=["i", "type"]),
                    pandas.DataFrame([[0, 1, 0.40, 2500],
-                                     [1, 2, 0.40, 2500],
-                                     [2, 3, 0.40, 2500],
-                                     [3, 1, 0.40, 2500]], columns=["i", "j", "L", "k"]), 
+                                     [1, 2, 0.40, "Constraint"],
+                                     [2, 3, 0.40, "Constraint"],
+                                     [3, 1, 0.40, "Constraint"]], columns=["i", "j", "L", "k"]), 
                    side_chain_angles_template.copy(), 
                    side_chain_dihedrals_template.copy()],
           "FENR": [pandas.DataFrame([["BB", "Na"],
@@ -138,13 +153,13 @@ res_db = {"A000": [pandas.DataFrame([["BB", "Na"]], columns=["i", "type"]),
                                      ["SC5", "SC4"],
                                      ["SC6", "SC4"]], columns=["i", "type"]),
                    pandas.DataFrame([[0, 1, 0.40, 2500],
-                                     [1, 2, 0.40, 2500],
-                                     [1, 6, 0.40, 2500],
-                                     [2, 3, 0.40, 2500],
-                                     [3, 4, 0.40, 2500],
-                                     [4, 5, 0.40, 2500],
-                                     [4, 6, 0.40, 2500],
-                                     [5, 6, 0.40, 2500]], columns=["i", "j", "L", "k"]), 
+                                     [1, 2, 0.40, "Constraint"],
+                                     [1, 6, 0.40, "Constraint"],
+                                     [2, 3, 0.40, "Constraint"],
+                                     [3, 4, 0.40, "Constraint"],
+                                     [4, 5, 0.40, "Constraint"],
+                                     [4, 6, 0.40, "Constraint"],
+                                     [5, 6, 0.40, "Constraint"]], columns=["i", "j", "L", "k"]), 
                    side_chain_angles_template.copy(), 
                    side_chain_dihedrals_template.copy()],
           "W000": [pandas.DataFrame([["BB", "Na"],
@@ -153,10 +168,10 @@ res_db = {"A000": [pandas.DataFrame([["BB", "Na"]], columns=["i", "type"]),
                                      ["SC3", "SC4"],
                                      ["SC4", "SC4"]], columns=["i", "type"]),
                    pandas.DataFrame([[0, 1, 0.40, 2500],
-                                     [1, 2, 0.40, 2500],
-                                     [1, 3, 0.40, 2500],
-                                     [2, 4, 0.40, 2500],
-                                     [3, 4, 0.40, 2500]], columns=["i", "j", "L", "k"]), 
+                                     [1, 2, 0.40, "Constraint"],
+                                     [1, 3, 0.40, "Constraint"],
+                                     [2, 4, 0.40, "Constraint"],
+                                     [3, 4, 0.40, "Constraint"]], columns=["i", "j", "L", "k"]), 
                    side_chain_angles_template.copy(), 
                    side_chain_dihedrals_template.copy()],
           "Q000": [pandas.DataFrame([["BB", "Na"],
