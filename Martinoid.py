@@ -323,7 +323,7 @@ bonds["j"] = bonds["j"].astype(np.uint64)
 print("Setting N-ter and C-ter to charged")
 
 beads.at[beads[beads["i"] == "BB"].index[0], "type"] = "Qd"
-beads.at[beads[beads["i"] == "BB"].index[-1], "type"] = "Qa"
+beads.at[beads[beads["i"] == "BB"].index[-1], "type"] = "Nda"
 
     
 print("Beads:")
