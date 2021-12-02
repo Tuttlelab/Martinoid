@@ -323,6 +323,7 @@ print("gmx mdrun -v  -ntomp 4 -deffnm Peptoid_min")
 #print("gmx mdrun -v  -ntomp 4 -deffnm Peptoid_Eq")
 print("")
 
+print("Martinoid for to say:", np.random.choice(TPB_quotes))
 
 a="""
 mol = Atoms(symbols=["C"]*beads.shape[0], positions=coords)
