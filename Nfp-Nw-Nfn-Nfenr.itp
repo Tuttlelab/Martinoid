@@ -1,0 +1,55 @@
+[ moleculetype ]
+; Name         Exclusions
+Nfp-Nw-Nfn-Nfenr   1
+
+[ atoms ]
+	1	Qd	1	FP00	BB	 1  1.0 ; 
+	2	C1	1	FP00	SC1	 2  0.0 ; 
+	3	SC4	1	FP00	SC2	 3  0.0 ; 
+	4	SC4	1	FP00	SC3	 4  0.0 ; 
+	5	SC4	1	FP00	SC4	 5  0.0 ; 
+	6	Nda	2	W000	BB	 6  0.0 ; 
+	7	SC4	2	W000	SC1	 7  0.0 ; 
+	8	SP1	2	W000	SC2	 8  0.0 ; 
+	9	SC4	2	W000	SC3	 9  0.0 ; 
+	10	SC4	2	W000	SC4	 10  0.0 ; 
+	11	Nda	3	FN00	BB	 11  0.0 ; 
+	12	SC4	3	FN00	SC1	 12  0.0 ; 
+	13	SC4	3	FN00	SC2	 13  0.0 ; 
+	14	Nda	4	FENR	BB	 14  0.0 ; 
+	15	SC4	4	FENR	SC1	 15  0.0 ; 
+	16	SC4	4	FENR	SC2	 16  0.0 ; 
+	17	SC4	4	FENR	SC3	 17  0.0 ; 
+	18	SC4	4	FENR	SC4	 18  0.0 ; 
+	19	SC4	4	FENR	SC5	 19  0.0 ; 
+
+[ bonds ]
+	1	2	1	0.339		4141.36 ; BB-SC1
+	1	6	1	0.35		2000.0 ; BB-BB
+	6	7	1	0.4		2500 ; BB-SC1
+	6	11	1	0.35		2000.0 ; BB-BB
+	11	12	1	0.339		4141.36 ; BB-SC1
+	11	14	1	0.35		2000.0 ; BB-BB
+	14	15	1	0.4		2500 ; BB-SC1
+
+[ constraints ]
+	2	3	1	0.235 ; SC1-SC2
+	3	4	1	0.235 ; SC2-SC3
+	4	2	1	0.235 ; SC3-SC1
+	7	8	1	0.4 ; SC1-SC2
+	7	9	1	0.4 ; SC1-SC3
+	8	10	1	0.4 ; SC2-SC4
+	9	10	1	0.4 ; SC3-SC4
+	12	13	1	0.235 ; SC1-SC2
+	13	13	1	0.235 ; SC2-SC2
+	15	16	1	0.4 ; SC1-SC2
+	15	17	1	0.4 ; SC1-SC3
+	16	17	1	0.4 ; SC2-SC3
+	17	18	1	0.4 ; SC3-SC4
+	18	19	1	0.4 ; SC4-SC5
+	19	17	1	0.4 ; SC5-SC3
+
+[ angles ]
+	1	6	7.0	2	150.0	25.0 ; BB-BB-SC1
+	6	11	12.0	2	126.555	36.755 ; BB-BB-SC1
+	11	14	15.0	2	100.0	25.0 ; BB-BB-SC1

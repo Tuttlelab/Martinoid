@@ -37,15 +37,20 @@ charges = {"Na":0.0, "Qa":-1.0, "Qd":1.0, "N0":0.0, "Nda": 0.0,
 SideChainCoords = {"AP00": np.array([[0.0, 0.2, 0.0]]),
                    "K000": np.array([[0.0, 0.15, 0.0],
                                      [0.0, 0.3, 0.0]]),
+                   "FN00": np.array([[0.05, 0.2, 0.0],
+                                     [-0.05, 0.2, 0.0]]),
                    "Y000": np.array([[0.0, 0.2, 0.0],
-                                     [0.2, 0.4, 0.0],
-                                     [-0.2, 0.4, 0.0]]),
-                   "FENR": np.array([[0.0, 0.2, 0.0],
-                                     [-0.2, 0.2, 0.0],
-                                     [-0.4, 0.3, 0.0],
-                                    [-0.2, 0.4, 0.0],
-                                    [0.0, 0.4, 0.0],
-                                    [0.2, 0.3, 0.0]]),
+                                     [0.1, 0.4, 0.0],
+                                     [-0.1, 0.4, 0.0]]),
+                   "FP00": np.array([[0.0, 0.2, 0.0],
+                                     [0.0, 0.4, 0.0],
+                                     [0.2, 0.6, 0.0],
+                                     [-0.2, 0.6, 0.0]]),
+                   "FENR": np.array([[-0.2, 0.2, 0.0],
+                                     [0.2, 0.2, 0.0],
+                                    [0, 0.4, 0.0],
+                                    [-0.2, 0.6, 0.0],
+                                    [0.2, 0.6, 0.0]]),
                    "W000": np.array([[0.0, 0.2, 0.0],
                                      [0.2, 0.3, 0.0],
                                      [-0.2, 0.3, 0.0],
@@ -60,11 +65,9 @@ SideChainCoords["D000"] = copy.copy(SideChainCoords["AP00"])
 SideChainCoords["S000"] = copy.copy(SideChainCoords["AP00"])
 SideChainCoords["T000"] = copy.copy(SideChainCoords["AP00"])
 SideChainCoords["SE00"] = copy.copy(SideChainCoords["AP00"])
-SideChainCoords["FN00"] = copy.copy(SideChainCoords["Y000"])
 SideChainCoords["F000"] = copy.copy(SideChainCoords["Y000"])
 SideChainCoords["FE00"] = copy.copy(SideChainCoords["Y000"])
 SideChainCoords["FE00"] = copy.copy(SideChainCoords["Y000"])
-SideChainCoords["FP00"] = copy.copy(SideChainCoords["Y000"])
 SideChainCoords["FER0"] = copy.copy(SideChainCoords["Y000"])
 SideChainCoords["FES0"] = copy.copy(SideChainCoords["Y000"])
 SideChainCoords["FEC3"] = copy.copy(SideChainCoords["Y000"])
@@ -121,7 +124,11 @@ def ParseData(res, typ):
     elif typ.lower() == "dihedrals":
         return pandas.read_csv(io.StringIO(dihedrals), index_col=0)
     elif typ.upper() == "BB":
-        l, k = BB.split("[")[1].split("]")[0].split(",")
+        try:
+            l, k = BB.split("[")[1].split("]")[0].split(",")
+        except IndexError:
+            print(f"No BB data for: {res}")
+            sys.exit()
         l = float(l)
         k = float(k)
         return l, k

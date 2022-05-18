@@ -170,7 +170,7 @@ while index <= beads["i"][1:].shape[0]:
     if bead == "BB":
         current_chain = template.add_chain()
         res = template.add_residue("W1000", current_chain)
-        template.add_atom("BB", mdtraj.core.element.carbon, res)
+        template.add_atom("BB", mdtraj.core.element.oxygen, res)
         new_pos[0] += 0.4
         new_pos[1] = 0
         if index > 0:
@@ -183,7 +183,6 @@ while index <= beads["i"][1:].shape[0]:
     else:
         SC_i = int(beads.at[index, "i"][-1])-1
         template.add_atom(f"SC{SC_i}", mdtraj.core.element.carbon, res)
-        #print("SideChainCoords:", SideChainCoords[beads.at[index, "resname"]], SC_i)
         new_side_chain = SideChainCoords[beads.at[index, "resname"]] + new_pos
         new_side_chain[:,1]*=sign
         coords = np.vstack((coords, new_side_chain[SC_i]))
